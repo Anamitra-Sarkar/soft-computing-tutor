@@ -1,0 +1,11 @@
+{
+  "name": "soft-computing-tutor",
+  "version": "1.0.0",
+  "description": "Interactive Soft Computing Study Guide",
+  "scripts": {
+    "build": "node replace_key.js"
+  },
+  "keywords": [],
+  "author": "Anamitra Sarkar",
+  "license": "ISC"
+}
