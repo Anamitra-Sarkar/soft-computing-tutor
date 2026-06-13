@@ -1,4 +1,5 @@
-const { useState, useEffect, useRef } = React;
+import React, { useState, useEffect, useRef } from 'react';
+import { tutorData } from './data';
 
 // --- VISUALIZERS ---
 
@@ -380,7 +381,7 @@ const ChatWidget = () => {
     setIsLoading(true);
 
     try {
-      const contextText = window.tutorData.map(topic => 
+      const contextText = tutorData.map(topic => 
         `Chapter: ${topic.title}\nSimplified Concept: ${topic.easyConcept}\nExam Q&A:\n${topic.examQuestions.map(q => `Q: ${q.q}\nA: ${q.a}`).join('\n')}`
       ).join('\n\n--- \n\n');
       
@@ -722,7 +723,7 @@ const QuestionCard = ({ q, a, index }) => {
 const App = () => {
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const data = window.tutorData;
+  const data = tutorData;
 
 
   const filteredData = data.filter(topic => 
@@ -873,5 +874,4 @@ const App = () => {
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(<App />);
+export default App;
