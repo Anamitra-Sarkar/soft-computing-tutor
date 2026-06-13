@@ -14,7 +14,7 @@ const FuzzyVisualizer = () => {
   const x2 = 290 - (alpha * 140);
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
+    <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
       <h4 className="text-xl font-bold text-slate-800 mb-2">Interactive Alpha-Cut Visualizer</h4>
       <p className="text-sm text-slate-500 mb-6">Drag the slider to adjust the Alpha (α) threshold and see the resulting crisp interval (red line).</p>
       
@@ -60,7 +60,7 @@ const FuzzyVisualizer = () => {
 const FuzzyOpsVisualizer = () => {
   const [op, setOp] = useState('union'); 
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
+    <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
       <h4 className="text-xl font-bold text-slate-800 mb-2">Interactive Fuzzy Operations</h4>
       <p className="text-sm text-slate-500 mb-6">Select an operation to see how Fuzzy Union (MAX) and Intersection (MIN) trace the shapes.</p>
       
@@ -106,7 +106,7 @@ const GradientDescentVisualizer = () => {
   const reset = () => { setX(8); setHistory([8]); };
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
+    <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
       <h4 className="text-xl font-bold text-slate-800 mb-2">Gradient Descent Simulator</h4>
       <p className="text-sm text-slate-500 mb-6">See how Learning Rate (α) affects weight updates. High rates bounce out, low rates are too slow!</p>
 
@@ -149,7 +149,7 @@ const PSOVisualizer = () => {
   const vTotal = { x: vCognitive.x + vSocial.x, y: vCognitive.y + vSocial.y };
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
+    <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8 text-center">
       <h4 className="text-xl font-bold text-slate-800 mb-2">PSO Vector Calculator</h4>
       <p className="text-sm text-slate-500 mb-6">Adjust cognitive (Personal Best) and social (Global Best) attraction to see the final velocity vector.</p>
 
@@ -201,7 +201,7 @@ const NeuronVisualizer = () => {
   const output = netInput >= threshold ? 1 : 0;
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8">
+    <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8">
       <h4 className="text-xl font-bold text-slate-800 mb-2 text-center">Interactive McCulloch-Pitts Neuron</h4>
       <p className="text-sm text-slate-500 mb-6 text-center">Tweak the inputs and weights to see how the neuron computes its summation and triggers the activation function.</p>
       
@@ -209,30 +209,30 @@ const NeuronVisualizer = () => {
         {/* Inputs & Weights */}
         <div className="space-y-4 bg-slate-50 p-4 rounded-lg border border-slate-100">
           <div>
-            <label className="text-xs font-bold text-slate-600 uppercase">Input X1 & Weight W1</label>
+            <label className="text-[10px] font-bold text-slate-600 uppercase">Input X1 & Weight W1</label>
             <div className="flex gap-2 mt-1">
-              <input type="number" value={x1} onChange={e=>setX1(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded" placeholder="X1" />
-              <input type="number" value={w1} onChange={e=>setW1(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded" placeholder="W1" />
+              <input type="number" value={x1} onChange={e=>setX1(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded text-sm" placeholder="X1" />
+              <input type="number" value={w1} onChange={e=>setW1(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded text-sm" placeholder="W1" />
             </div>
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-600 uppercase">Input X2 & Weight W2</label>
+            <label className="text-[10px] font-bold text-slate-600 uppercase">Input X2 & Weight W2</label>
             <div className="flex gap-2 mt-1">
-              <input type="number" value={x2} onChange={e=>setX2(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded" placeholder="X2" />
-              <input type="number" value={w2} onChange={e=>setW2(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded" placeholder="W2" />
+              <input type="number" value={x2} onChange={e=>setX2(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded text-sm" placeholder="X2" />
+              <input type="number" value={w2} onChange={e=>setW2(parseFloat(e.target.value)||0)} className="w-1/2 p-2 border rounded text-sm" placeholder="W2" />
             </div>
           </div>
           <div>
-            <label className="text-xs font-bold text-slate-600 uppercase">Bias (b)</label>
-            <input type="number" value={bias} onChange={e=>setBias(parseFloat(e.target.value)||0)} className="w-full p-2 border rounded mt-1" />
+            <label className="text-[10px] font-bold text-slate-600 uppercase">Bias (b)</label>
+            <input type="number" value={bias} onChange={e=>setBias(parseFloat(e.target.value)||0)} className="w-full p-2 border rounded mt-1 text-sm" />
           </div>
         </div>
 
         {/* Summation */}
-        <div className="flex flex-col items-center justify-center bg-slate-100 p-6 rounded-full aspect-square border-4 border-blue-200 shadow-inner relative">
-          <div className="text-xs font-bold text-blue-800 mb-1">Summation (Y_in)</div>
-          <div className="text-3xl font-black text-blue-800">{netInput.toFixed(2)}</div>
-          <div className="text-[10px] text-blue-400 mt-2 text-center absolute bottom-4">
+        <div className="flex flex-col items-center justify-center bg-slate-100 p-4 sm:p-6 rounded-full aspect-square border-4 border-blue-200 shadow-inner relative max-w-[180px] mx-auto">
+          <div className="text-[10px] font-bold text-blue-800 mb-1">Summation (Y_in)</div>
+          <div className="text-2xl sm:text-3xl font-black text-blue-800">{netInput.toFixed(2)}</div>
+          <div className="text-[8px] text-blue-400 mt-2 text-center absolute bottom-4">
             ({x1}×{w1}) + ({x2}×{w2}) + {bias}
           </div>
         </div>
@@ -240,15 +240,15 @@ const NeuronVisualizer = () => {
         {/* Activation */}
         <div className="space-y-4 bg-slate-50 p-4 rounded-lg border border-slate-100 flex flex-col justify-center h-full">
           <div>
-            <label className="text-xs font-bold text-slate-600 uppercase">Activation Threshold (θ)</label>
-            <input type="number" value={threshold} onChange={e=>setThreshold(parseFloat(e.target.value)||0)} className="w-full p-2 border rounded mt-1" />
+            <label className="text-[10px] font-bold text-slate-600 uppercase">Threshold (θ)</label>
+            <input type="number" value={threshold} onChange={e=>setThreshold(parseFloat(e.target.value)||0)} className="w-full p-2 border rounded mt-1 text-sm" />
           </div>
           <div className="text-center mt-4">
-            <div className="text-xs font-bold text-slate-600 uppercase mb-2">Final Output</div>
+            <div className="text-[10px] font-bold text-slate-600 uppercase mb-2">Final Output</div>
             <div className={`text-4xl font-black ${output === 1 ? 'text-emerald-500' : 'text-red-500'}`}>
               {output}
             </div>
-            <div className="text-xs text-slate-500 mt-2">
+            <div className="text-[10px] text-slate-500 mt-2">
               (Y_in {netInput >= threshold ? '≥' : '<'} {threshold})
             </div>
           </div>
@@ -271,11 +271,11 @@ const GAVisualizer = () => {
   const p4 = total === 0 ? 0 : ((f4 / total) * 100).toFixed(1);
 
   return (
-    <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8">
+    <div className="bg-white p-4 sm:p-6 rounded-xl border border-slate-200 shadow-sm mt-6 mb-8">
       <h4 className="text-xl font-bold text-slate-800 mb-2 text-center">Interactive Roulette Wheel Math</h4>
       <p className="text-sm text-slate-500 mb-6 text-center">Change the fitness scores of the 4 individuals to see how their probability (slice of the wheel) mathematically changes.</p>
-      
-      <div className="grid md:grid-cols-2 gap-8 items-center">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
         <div className="space-y-3">
           {[
             { id: 1, val: f1, set: setF1, color: 'bg-blue-700' },
@@ -284,13 +284,13 @@ const GAVisualizer = () => {
             { id: 4, val: f4, set: setF4, color: 'bg-rose-500' }
           ].map(item => (
             <div key={item.id} className="flex items-center gap-4">
-              <div className={`w-4 h-4 rounded-full ${item.color}`}></div>
-              <label className="font-bold text-slate-700 w-24">Indiv {item.id} Fitness:</label>
+              <div className={`w-4 h-4 rounded-full ${item.color} shrink-0`}></div>
+              <label className="font-bold text-slate-700 text-sm w-24">Indiv {item.id} Fitness:</label>
               <input 
                 type="number" min="0" 
                 value={item.val} 
                 onChange={e => item.set(Math.max(0, parseInt(e.target.value) || 0))}
-                className="w-24 p-2 border rounded"
+                className="w-20 p-2 border rounded text-sm"
               />
             </div>
           ))}
@@ -308,7 +308,7 @@ const GAVisualizer = () => {
             { id: 4, p: p4, color: 'bg-rose-500' }
           ].map(item => (
             <div key={item.id}>
-              <div className="flex justify-between text-sm mb-1 font-semibold text-slate-600">
+              <div className="flex justify-between text-xs sm:text-sm mb-1 font-semibold text-slate-600">
                 <span>Indiv {item.id}</span>
                 <span>{item.p}%</span>
               </div>
@@ -321,7 +321,7 @@ const GAVisualizer = () => {
       </div>
     </div>
   );
-};
+  };
 
 const VisualizerSelector = ({ type }) => {
   if (type === 'fuzzy') return <FuzzyVisualizer />;
@@ -424,11 +424,11 @@ ${contextText}`
   };
 
   return (
-    <div className="fixed bottom-6 left-6 z-50 flex flex-col items-start animate-fade-in">
+    <div className="fixed bottom-4 sm:bottom-6 right-4 sm:right-6 z-50 flex flex-col items-end animate-fade-in">
       {isOpen && (
-        <div className="bg-white border border-slate-200 shadow-2xl rounded-2xl w-[340px] sm:w-[450px] mb-4 flex flex-col overflow-hidden transition-all duration-300" style={{ height: '550px', maxHeight: '80vh' }}>
-          <div className="bg-blue-800 text-white p-4 font-bold flex justify-between items-center shadow-md">
-            <span className="flex items-center gap-2">
+        <div className="bg-white border border-slate-200 shadow-2xl rounded-2xl w-[calc(100vw-2rem)] sm:w-[400px] mb-4 flex flex-col overflow-hidden transition-all duration-300" style={{ height: '500px', maxHeight: '70vh' }}>
+          <div className="bg-blue-800 text-white p-3 sm:p-4 font-bold flex justify-between items-center shadow-md">
+            <span className="flex items-center gap-2 text-sm sm:text-base">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
               Interactive Study Assistant
             </span>
@@ -436,10 +436,10 @@ ${contextText}`
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
           </div>
-          <div className="flex-1 p-4 overflow-y-auto bg-slate-50 space-y-4">
+          <div className="flex-1 p-3 sm:p-4 overflow-y-auto bg-slate-50 space-y-4">
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[90%] p-3 rounded-xl shadow-sm text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-800 text-white rounded-tr-none' : 'bg-white text-slate-700 border border-slate-200 rounded-tl-none'}`}>
+                <div className={`max-w-[90%] p-3 rounded-xl shadow-sm text-[13px] sm:text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-800 text-white rounded-tr-none' : 'bg-white text-slate-700 border border-slate-200 rounded-tl-none'}`}>
                   {formatText(msg.content)}
                 </div>
               </div>
@@ -461,13 +461,13 @@ ${contextText}`
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && sendMessage()}
-              placeholder="Ask a math or theory question..."
+              placeholder="Ask a question..."
               className="flex-1 border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-blue-700 focus:ring-1 focus:ring-blue-700"
             />
             <button 
               onClick={sendMessage}
               disabled={isLoading || !input.trim()}
-              className="bg-blue-800 text-white rounded-lg px-4 py-2 hover:bg-blue-900 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-blue-800 text-white rounded-lg px-3 sm:px-4 py-2 hover:bg-blue-900 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-4 h-4 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
             </button>
@@ -476,7 +476,7 @@ ${contextText}`
       )}
       <button 
         onClick={toggleChat}
-        className="bg-blue-800 text-white p-4 rounded-full shadow-2xl hover:bg-blue-900 transition-transform transform hover:scale-105 active:scale-95 flex items-center justify-center"
+        className="bg-blue-800 text-white p-3 sm:p-4 rounded-full shadow-2xl hover:bg-blue-900 transition-transform transform hover:scale-105 active:scale-95 flex items-center justify-center"
       >
         {isOpen ? (
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
@@ -802,18 +802,18 @@ const App = () => {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto p-6 py-16 animate-fade-in relative pb-24">
-        <div className="text-center mb-16">
-          <span className="uppercase tracking-widest text-sm font-bold text-blue-700 mb-2 block">MAKAUT Advanced Syllabus</span>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 font-serif">
+      <div className="max-w-6xl mx-auto p-4 sm:p-6 py-10 sm:py-16 animate-fade-in relative pb-24">
+        <div className="text-center mb-10 sm:mb-16">
+          <span className="uppercase tracking-widest text-[10px] sm:text-sm font-bold text-blue-700 mb-2 block">MAKAUT Advanced Syllabus</span>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 font-serif">
             Soft Computing Mastery
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
             Deep mathematics, step-by-step algorithms, and interactive study tools to guarantee exam success.
           </p>
         </div>
 
-        <div className="max-w-2xl mx-auto mb-12 relative">
+        <div className="max-w-2xl mx-auto mb-10 sm:mb-12 relative">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <svg className="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -821,14 +821,14 @@ const App = () => {
           </div>
           <input
             type="text"
-            className="block w-full pl-11 pr-4 py-4 bg-white border border-slate-200 rounded-xl leading-5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800 sm:text-lg shadow-sm transition-all duration-300 font-serif"
-            placeholder="Search for a topic, concept, or mathematical model..."
+            className="block w-full pl-11 pr-4 py-3 sm:py-4 bg-white border border-slate-200 rounded-xl leading-5 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-800 focus:border-blue-800 text-base sm:text-lg shadow-sm transition-all duration-300 font-serif"
+            placeholder="Search for a topic, concept..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
           {filteredData.map((topic, idx) => (
             <div 
               key={idx}
