@@ -538,14 +538,14 @@ const QuizComponent = ({ quizData }) => {
         4. Keep your feedback concise, direct, and under 3-4 sentences. Format key terms in bold.`
       };
 
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('https://open.bigmodel.cn/api/paas/v4/chat/completions', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer __GROQ_API_KEY__'
+          'Authorization': 'Bearer MISSING_KEY'
         },
         body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
+          model: 'glm-4.7-flash',
           messages: [systemMessage],
           temperature: 0.3,
         })
