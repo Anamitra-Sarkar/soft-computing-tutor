@@ -12,8 +12,8 @@ An interactive study guide for university students covering Fuzzy Logic, Neural 
 1. Push this repository to GitHub.
 2. Connect the repository to Vercel.
 3. In Vercel Project Settings, add an Environment Variable:
-   - **Key:** `GROQ_API_KEY`
-   - **Value:** Your Groq API Key (starts with `gsk_`)
+   - **Key:** `ZHIPU_API_KEY`
+   - **Value:** Your Zhipu API Key
 4. Deploy! The build script will automatically inject the key into the application.
 
 ## Development
