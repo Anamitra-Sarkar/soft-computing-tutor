@@ -526,7 +526,7 @@ const QuizComponent = ({ quizData }) => {
 
     try {
       const systemMessage = {
-        role: 'system',
+        role: 'user',
         content: `You are a strict but fair university professor grading a 3rd-semester student's answer for a Soft Computing exam.
         Question: "${question}"
         Student's Answer: "${userAnswer}"
@@ -573,88 +573,86 @@ const QuizComponent = ({ quizData }) => {
       </h3>
       
       <div className="space-y-8">
-        {/* Render MCQs */}
+        {/* Render All Questions */}
         {randomizedQuiz.map((qObj, rawIdx) => {
-          if (qObj.type === 'long') return null;
-          return (
-          <div key={rawIdx} className="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
-            <p className="font-semibold text-slate-800 mb-4 text-lg">{rawIdx + 1}. {qObj.q}</p>
-            <div className="space-y-2">
-              {qObj.options.map((opt, oIdx) => {
-                const isSelected = selectedAnswers[rawIdx] === oIdx;
-                const isCorrect = oIdx === qObj.answer;
+          if (qObj.type === 'long') {
+            const fb = longFeedback[rawIdx];
+            return (
+              <div key={rawIdx} className="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                <p className="font-semibold text-slate-800 mb-4 text-lg">{rawIdx + 1}. [Subjective] {qObj.q}</p>
+                <textarea
+                  className="w-full border border-slate-300 rounded-lg p-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-700 min-h-[100px]"
+                  placeholder="Type your exam answer here..."
+                  value={longAnswers[rawIdx] || ''}
+                  onChange={(e) => handleLongText(rawIdx, e.target.value)}
+                />
                 
-                let btnClass = "w-full text-left px-4 py-3 rounded-md border transition-all duration-200 ";
+                <button 
+                  onClick={() => evaluateLongAnswer(rawIdx, qObj.q, longAnswers[rawIdx])}
+                  disabled={!longAnswers[rawIdx] || (fb && fb.loading)}
+                  className="mt-3 bg-slate-800 text-white px-4 py-2 rounded-md hover:bg-slate-700 transition-colors disabled:opacity-50 flex items-center gap-2"
+                >
+                  {fb && fb.loading ? (
+                    <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Grading Answer...</>
+                  ) : (
+                    <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Evaluate Answer</>
+                  )}
+                </button>
+
+                {fb && fb.feedback && (
+                  <div className="mt-4 p-4 bg-slate-100 border border-blue-100 rounded-md text-sm text-blue-900 leading-relaxed">
+                    <span className="font-bold block mb-1">👨‍🏫 Professor Feedback:</span>
+                    <span dangerouslySetInnerHTML={{ __html: fb.feedback.replace(/\n/g, '<br />').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                  </div>
+                )}
+              </div>
+            );
+          } else {
+            return (
+              <div key={rawIdx} className="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
+                <p className="font-semibold text-slate-800 mb-4 text-lg">{rawIdx + 1}. {qObj.q}</p>
+                <div className="space-y-2">
+                  {qObj.options && qObj.options.map((opt, oIdx) => {
+                    const isSelected = selectedAnswers[rawIdx] === oIdx;
+                    const isCorrect = oIdx === qObj.answer;
+                    
+                    let btnClass = "w-full text-left px-4 py-3 rounded-md border transition-all duration-200 ";
+                    
+                    if (!showResults) {
+                      btnClass += isSelected ? "bg-slate-100 border-blue-700 text-blue-900 font-medium" : "bg-white border-slate-200 hover:bg-slate-50 text-slate-700";
+                    } else {
+                      if (isCorrect) {
+                        btnClass += "bg-emerald-50 border-emerald-500 text-emerald-700 font-medium";
+                      } else if (isSelected && !isCorrect) {
+                        btnClass += "bg-red-50 border-red-500 text-red-700 font-medium";
+                      } else {
+                        btnClass += "bg-white border-slate-200 text-slate-400 opacity-60";
+                      }
+                    }
+
+                    return (
+                      <button 
+                        key={oIdx} 
+                        onClick={() => handleSelect(rawIdx, oIdx)}
+                        className={btnClass}
+                        disabled={showResults}
+                      >
+                        {String.fromCharCode(65 + oIdx)}. {opt}
+                      </button>
+                    );
+                  })}
+                </div>
                 
-                if (!showResults) {
-                  btnClass += isSelected ? "bg-slate-100 border-blue-700 text-blue-900 font-medium" : "bg-white border-slate-200 hover:bg-slate-50 text-slate-700";
-                } else {
-                  if (isCorrect) {
-                    btnClass += "bg-emerald-50 border-emerald-500 text-emerald-700 font-medium";
-                  } else if (isSelected && !isCorrect) {
-                    btnClass += "bg-red-50 border-red-500 text-red-700 font-medium";
-                  } else {
-                    btnClass += "bg-white border-slate-200 text-slate-400 opacity-60";
-                  }
-                }
-
-                return (
-                  <button 
-                    key={oIdx} 
-                    onClick={() => handleSelect(rawIdx, oIdx)}
-                    className={btnClass}
-                    disabled={showResults}
-                  >
-                    {String.fromCharCode(65 + oIdx)}. {opt}
-                  </button>
-                );
-              })}
-            </div>
-            
-            {showResults && (
-              <div className={`mt-4 p-4 rounded-md text-sm ${selectedAnswers[rawIdx] === qObj.answer ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-800 border border-red-200"}`}>
-                <span className="font-bold mr-2">{selectedAnswers[rawIdx] === qObj.answer ? "✓ Correct!" : "✗ Incorrect."}</span>
-                {qObj.explanation}
+                {showResults && (
+                  <div className={`mt-4 p-4 rounded-md text-sm ${selectedAnswers[rawIdx] === qObj.answer ? "bg-emerald-50 text-emerald-800 border border-emerald-200" : "bg-red-50 text-red-800 border border-red-200"}`}>
+                    <span className="font-bold mr-2">{selectedAnswers[rawIdx] === qObj.answer ? "✓ Correct!" : "✗ Incorrect."}</span>
+                    {qObj.explanation}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        )})}
-
-        {/* Render Long Questions */}
-        {randomizedQuiz.map((qObj, rawIdx) => {
-          if (qObj.type !== 'long') return null;
-          const fb = longFeedback[rawIdx];
-          
-          return (
-          <div key={rawIdx} className="bg-white p-5 rounded-lg shadow-sm border border-slate-100">
-            <p className="font-semibold text-slate-800 mb-4 text-lg">{rawIdx + 1}. [Subjective] {qObj.q}</p>
-            <textarea
-              className="w-full border border-slate-300 rounded-lg p-3 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-700 min-h-[100px]"
-              placeholder="Type your exam answer here..."
-              value={longAnswers[rawIdx] || ''}
-              onChange={(e) => handleLongText(rawIdx, e.target.value)}
-            />
-            
-            <button 
-              onClick={() => evaluateLongAnswer(rawIdx, qObj.q, longAnswers[rawIdx])}
-              disabled={!longAnswers[rawIdx] || (fb && fb.loading)}
-              className="mt-3 bg-slate-800 text-white px-4 py-2 rounded-md hover:bg-slate-700 transition-colors disabled:opacity-50 flex items-center gap-2"
-            >
-              {fb && fb.loading ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Grading Answer...</>
-              ) : (
-                <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> Evaluate Answer</>
-              )}
-            </button>
-
-            {fb && fb.feedback && (
-              <div className="mt-4 p-4 bg-slate-100 border border-blue-100 rounded-md text-sm text-blue-900 leading-relaxed">
-                <span className="font-bold block mb-1">👨‍🏫 Professor Feedback:</span>
-                <span dangerouslySetInnerHTML={{ __html: fb.feedback.replace(/\n/g, '<br />').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
-              </div>
-            )}
-          </div>
-        )})}
+            );
+          }
+        })}
       </div>
 
       {!showResults && Object.keys(selectedAnswers).length === mcqQuestions.length && mcqQuestions.length > 0 && (
