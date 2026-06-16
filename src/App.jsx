@@ -542,7 +542,7 @@ const QuizComponent = ({ quizData }) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer MISSING_KEY'
+          'Authorization': 'Bearer __ZHIPU_API_KEY__'
         },
         body: JSON.stringify({
           model: 'glm-4.7-flash',
