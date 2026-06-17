@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
+import remarkBreaks from 'remark-breaks';
 import rehypeKatex from 'rehype-katex';
 import React, { useState, useEffect, useRef } from 'react';
 import { tutorData } from './data';
@@ -429,7 +430,7 @@ ${contextText}`
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[90%] p-3 rounded-xl shadow-sm text-[13px] sm:text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-800 text-white rounded-tr-none' : 'bg-white text-slate-700 border border-slate-200 rounded-tl-none'}`}>
-                  <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{msg.content}</ReactMarkdown>
+                  <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]} rehypePlugins={[rehypeKatex]}>{msg.content}</ReactMarkdown>
                 </div>
               </div>
             ))}
@@ -590,7 +591,7 @@ const QuizComponent = ({ quizData }) => {
                 {fb && fb.feedback && (
                   <div className="mt-4 p-4 bg-slate-100 border border-blue-100 rounded-md text-sm text-blue-900 leading-relaxed">
                     <span className="font-bold block mb-1">👨‍🏫 Professor Feedback:</span>
-                    <div className="markdown-container text-sm text-blue-900"><ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{fb.feedback}</ReactMarkdown></div>
+                    <div className="markdown-container text-sm text-blue-900"><ReactMarkdown remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]} rehypePlugins={[rehypeKatex]}>{fb.feedback}</ReactMarkdown></div>
                   </div>
                 )}
               </div>
@@ -678,7 +679,7 @@ const QuestionCard = ({ q, a, index }) => {
       >
         <div className="p-5 bg-slate-50 border-t border-slate-100 text-slate-700 text-base leading-relaxed markdown-container">
           <ReactMarkdown 
-            remarkPlugins={[remarkGfm, remarkMath]} 
+            remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]} 
             rehypePlugins={[rehypeKatex]}
           >
             {a}
