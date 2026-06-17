@@ -1,3 +1,7 @@
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import React, { useState, useEffect, useRef } from 'react';
 import { tutorData } from './data';
 
@@ -353,23 +357,7 @@ const ChatWidget = () => {
 
   const toggleChat = () => setIsOpen(!isOpen);
 
-  const formatText = (text) => {
-    return text.split('\n').map((line, i) => {
-      if (line.trim() === '') return <br key={i} />;
-      const parts = line.split(/(\*\*.*?\*\*)/g);
-      return (
-        <span key={i}>
-          {parts.map((part, j) => {
-            if (part.startsWith('**') && part.endsWith('**')) {
-              return <strong key={j} className="font-bold">{part.slice(2, -2)}</strong>;
-            }
-            return part;
-          })}
-          <br />
-        </span>
-      );
-    });
-  };
+  
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -441,7 +429,7 @@ ${contextText}`
             {messages.map((msg, idx) => (
               <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                 <div className={`max-w-[90%] p-3 rounded-xl shadow-sm text-[13px] sm:text-sm leading-relaxed ${msg.role === 'user' ? 'bg-blue-800 text-white rounded-tr-none' : 'bg-white text-slate-700 border border-slate-200 rounded-tl-none'}`}>
-                  {formatText(msg.content)}
+                  <ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{msg.content}</ReactMarkdown>
                 </div>
               </div>
             ))}
@@ -602,7 +590,7 @@ const QuizComponent = ({ quizData }) => {
                 {fb && fb.feedback && (
                   <div className="mt-4 p-4 bg-slate-100 border border-blue-100 rounded-md text-sm text-blue-900 leading-relaxed">
                     <span className="font-bold block mb-1">👨‍🏫 Professor Feedback:</span>
-                    <span dangerouslySetInnerHTML={{ __html: fb.feedback.replace(/\n/g, '<br />').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') }} />
+                    <div className="markdown-container text-sm text-blue-900"><ReactMarkdown remarkPlugins={[remarkGfm, remarkMath]} rehypePlugins={[rehypeKatex]}>{fb.feedback}</ReactMarkdown></div>
                   </div>
                 )}
               </div>
@@ -670,31 +658,9 @@ const QuizComponent = ({ quizData }) => {
 const QuestionCard = ({ q, a, index }) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
-  const formattedAnswer = a.split('\n').map((line, i) => {
-    if (line.trim() === '') return <br key={i} />;
-    
-    // Replace markdown math with styled spans temporarily (simplified)
-    const processedLine = line.replace(/\$(.*?)\$/g, (match, p1) => {
-      return `<span class="font-mono text-blue-900 bg-slate-100 px-1 rounded">${p1}</span>`;
-    });
-
-    const parts = processedLine.split(/(\*\*.*?\*\*)/g);
-    return (
-      <span key={i}>
-        {parts.map((part, j) => {
-          if (part.startsWith('**') && part.endsWith('**')) {
-            return <strong key={j} className="font-bold text-slate-900">{part.slice(2, -2)}</strong>;
-          }
-          return <span key={j} dangerouslySetInnerHTML={{ __html: part }} />;
-        })}
-        <br />
-      </span>
-    );
-  });
-
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200 mb-4 overflow-hidden transition-all duration-300 hover:shadow-md">
-      <button 
+      <button
         className="w-full text-left p-5 flex justify-between items-start focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-inset"
         onClick={() => setShowAnswer(!showAnswer)}
       >
@@ -706,12 +672,17 @@ const QuestionCard = ({ q, a, index }) => {
           ▼
         </span>
       </button>
-      
-      <div 
+
+      <div
         className={`transition-all duration-500 ease-in-out origin-top ${showAnswer ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}
       >
-        <div className="p-5 bg-slate-50 border-t border-slate-100 text-slate-700 text-base leading-relaxed">
-          {formattedAnswer}
+        <div className="p-5 bg-slate-50 border-t border-slate-100 text-slate-700 text-base leading-relaxed markdown-container">
+          <ReactMarkdown 
+            remarkPlugins={[remarkGfm, remarkMath]} 
+            rehypePlugins={[rehypeKatex]}
+          >
+            {a}
+          </ReactMarkdown>
         </div>
       </div>
     </div>
